@@ -1,47 +1,51 @@
 from pathlib import Path
 import sqlite3
-base_dir = Path(__file__).resolve().parent.parent
-BD_dir = base_dir / "database"
-BD_dir.mkdir(exist_ok=True)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_DIR = BASE_DIR / "database"
+DB_DIR.mkdir(exist_ok=True)
 
 class Database:
-  def __init__(self, ficheiro="infosolutions.db"):
-    self.ficheiro = ficheiro
-    self.criar_tabelas()
+    def __init__(self, filename="infosolutions.db"):
+        self.filename = filename
+        self.create_tables()
 
-  def ligar(self):
-    con = sqlite3.connect(BD_dir / self.ficheiro)
-    con.execute("PRAGMA foreign_keys = on")
-    return con
+    def connect(self):
+        con = sqlite3.connect(DB_DIR / self.filename)
+        con.execute("PRAGMA foreign_keys = ON")
+        return con
 
-  def criar_tabelas(self):
-    with self.ligar() as con:
-      con.executescript("""
-            CREATE TABLE IF NOT EXISTS clientes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                telefone TEXT NOT NULL,
-                email TEXT,
-                nif TEXT UNIQUE
-            );
-            CREATE TABLE IF NOT EXISTS funcionarios (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL, cargo TEXT,
-                salario_base REAL NOT NULL, bonus REAL DEFAULT 0
-            );
-            CREATE TABLE IF NOT EXISTS produtos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                preco REAL NOT NULL, quantidade INTEGER NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS vendas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                cliente_id INTEGER NOT NULL,
-                produto_id INTEGER NOT NULL,
-                quantidade INTEGER NOT NULL,
-                total REAL NOT NULL,
-                data TEXT NOT NULL,
-                FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-                FOREIGN KEY (produto_id) REFERENCES produtos(id)
-            );
+    def create_tables(self):
+        with self.connect() as con:
+            con.executescript("""
+                CREATE TABLE IF NOT EXISTS customers (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    phone TEXT NOT NULL,
+                    email TEXT,
+                    tax_id TEXT UNIQUE
+                );
+                CREATE TABLE IF NOT EXISTS employees (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    position TEXT,
+                    base_salary REAL NOT NULL,
+                    bonus REAL DEFAULT 0
+                );
+                CREATE TABLE IF NOT EXISTS products (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    price REAL NOT NULL,
+                    quantity INTEGER NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS sales (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    customer_id INTEGER NOT NULL,
+                    product_id INTEGER NOT NULL,
+                    quantity INTEGER NOT NULL,
+                    total REAL NOT NULL,
+                    sale_date TEXT NOT NULL,
+                    FOREIGN KEY (customer_id) REFERENCES customers(id),
+                    FOREIGN KEY (product_id) REFERENCES products(id)
+                );
             """)
