@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Database
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+*.db-journal
+
+# IDE / system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
