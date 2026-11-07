@@ -1,4 +1,4 @@
-class Product:
+class ProductModel:
     def __init__(self, name, price, quantity, id=None):
         name = name.strip()
         if not name:
@@ -35,7 +35,7 @@ class Product:
             rows = con.execute(
                 "SELECT id, name, price, quantity FROM products"
             ).fetchall()
-        return [Product(n, p, q, id) for id, n, p, q in rows]
+        return [ProductModel(n, p, q, id) for id, n, p, q in rows]
 
     @staticmethod
     def update_stock(db, id, new_quantity):

@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DB_DIR = BASE_DIR / "database"
 DB_DIR.mkdir(exist_ok=True)
 
-class Database:
+class DatabaseModel:
     def __init__(self, filename="infosolutions.db"):
         self.filename = filename
         self.create_tables()

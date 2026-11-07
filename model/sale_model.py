@@ -3,7 +3,7 @@ from datetime import datetime
 class InsufficientStockError(Exception):
     """Raised when trying to sell more units than are in stock."""
 
-class Sale:
+class SaleModel:
     def __init__(self, customer_id, product_id, quantity, total=0, sale_date="", id=None):
         if quantity <= 0:
             raise ValueError("Quantity must be greater than zero.")

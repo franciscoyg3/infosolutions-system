@@ -1,6 +1,6 @@
 import re
 
-class Customer:
+class CustomerModel:
     def __init__(self, name, phone, email, tax_id, id=None):
         name = name.strip()
         phone = self.normalize_phone(phone)
@@ -67,11 +67,11 @@ class Customer:
             rows = con.execute(
                 "SELECT id, name, phone, email, tax_id FROM customers"
             ).fetchall()
-        return [Customer(n, p, e, t, id) for id, n, p, e, t in rows]
+        return [CustomerModel(n, p, e, t, id) for id, n, p, e, t in rows]
 
     @staticmethod
     def update_customer(db, id, name, phone, email, tax_id):
-        c = Customer(name, phone, email, tax_id, id)
+        c = CustomerModel(name, phone, email, tax_id, id)
         with db.connect() as con:
             cur = con.execute(
                 "UPDATE customers SET name=?, phone=?, email=?, tax_id=? WHERE id=?",
@@ -93,4 +93,4 @@ class Customer:
                 (f"%{term}%", term)
             ).fetchall()
 
-        return [Customer(n, p, e, t, id) for id, n, p, e, t in rows]
+        return [CustomerModel(n, p, e, t, id) for id, n, p, e, t in rows]

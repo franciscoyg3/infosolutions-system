@@ -1,4 +1,4 @@
-class Employee:
+class EmployeeModel:
     def __init__(self, name, position, base_salary, bonus=0, id=None):
         name, position = name.strip(), position.strip()
         if not name or not position:
@@ -37,7 +37,7 @@ class Employee:
                 "SELECT id, name, position, base_salary, bonus FROM employees"
             ).fetchall()
         return [
-            Employee(name, position, base_salary, bonus, id)
+            EmployeeModel(name, position, base_salary, bonus, id)
             for id, name, position, base_salary, bonus in rows
         ]
 
@@ -60,6 +60,6 @@ class Employee:
                 )
             """).fetchall()
         return [
-            Employee(name, position, base_salary, bonus, id)
+            EmployeeModel(name, position, base_salary, bonus, id)
             for id, name, position, base_salary, bonus in rows
         ]
