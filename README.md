@@ -151,4 +151,4 @@ Development uses a simple branch flow: short-lived work branches (`feature`, `bu
 
 ## Project Author
 
-**Claudio Francisco** — academic / contest project, Luanda, Angola.
+**Cláudio Francisco** — academic / contest project, Luanda, Angola.
