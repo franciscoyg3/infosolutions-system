@@ -5,10 +5,13 @@ class SaleView:
         print("0 - Back")
         print("1 - Register Sale")
         print(".....................................")
+        # strip() removes stray spaces so the option matches the controller's string comparisons
         return input("What would you like to do? : ").strip()
 
     @staticmethod
     def ask_sale_data():
+        # Asks for the three fields together and only returns once all of them
+        # convert to int; any invalid value restarts the whole sequence
         while True:
             try:
                 customer_id = int(input("Enter the customer's ID: "))

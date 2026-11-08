@@ -9,6 +9,7 @@ class MenuView:
         print("4 - Sales Registration")
         print("5 - Reports")
         print(".....................................")
+        # strip() so stray spaces still match the controller's string comparisons.
         return input("What would you like to do? : ").strip()
 
     @staticmethod
