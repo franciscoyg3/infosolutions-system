@@ -18,6 +18,8 @@ class AppController:
         self.db = db
         self.view = MenuView()
 
+        # All controllers share the same db connection, while each gets its own
+        # view instance. Injecting both keeps controllers testable with mocks.
         self.customers = CustomerController(db, CustomerView())
         self.employees = EmployeeController(db, EmployeeView())
         self.products = ProductController(db, ProductView())
@@ -28,6 +30,8 @@ class AppController:
         """Main menu loop. It only ends when the user chooses 0."""
         while True:
             try:
+                # input() returns str, so options are compared as strings
+                # on purpose (no int() cast that could raise ValueError).
                 option = self.view.main_menu()
                 if option == "1":
                     self.customers.run()
@@ -45,7 +49,12 @@ class AppController:
                 else:
                     self.view.show_message("Invalid option.")
             except (KeyboardInterrupt, EOFError):
+                # Ctrl+C / Ctrl+D: exit cleanly instead of dumping a traceback.
+                # The leading \n moves the message off the line where ^C was echoed.
                 self.view.show_message("\nSystem closed.")
                 break
             except Exception as error:
+                # Catch-all keeps the app alive if a single module fails, so the
+                # user returns to the menu. Trade-off: the traceback is hidden,
+                # so consider logging it here for debugging.
                 self.view.show_message(f"Unexpected error: {error}")
